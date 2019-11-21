@@ -25,14 +25,14 @@
     // Initialize the teleop.
     var teleop = new KEYBOARDTELEOP.Teleop({
       ros : ros,
-      topic : '/turtle1/cmd_vel'
+      topic : '/pocketbot/cmd_vel'
     });
 
     // Create a UI slider using JQuery UI.
     $('#speed-slider').slider({
       range : 'min',
-      min : 0,
-      max : 100,
+      min : 100,
+      max : 300,
       value : 90,
       slide : function(event, ui) {
         // Change the speed label.
@@ -50,6 +50,8 @@
 </head>
 
 <body onload="init()">
+  <img src="http://192.168.2.133:8090/stream/video.mjpeg" width="60%"" height="60%"/>
+
   <div id="speed-label"></div>
   <div id="speed-slider"></div>
   Use W,A,S,D to send command to /turtle1/cmd_vel
