@@ -1,0 +1,37 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<script src="https://static.robotwebtools.org/threejs/current/three.min.js"></script>
+<script src="https://static.robotwebtools.org/EventEmitter2/current/eventemitter2.min.js"></script>
+<script src="https://static.robotwebtools.org/roslibjs/current/roslib.min.js"></script>
+<script src="https://static.robotwebtools.org/ros3djs/current/ros3d.min.js"></script>
+<script>
+  function init() {
+    var viewer = new ROS3D.Viewer({
+      divID : 'map',
+      width : window.innerWidth,
+      height : window.innerHeight,
+      antialias : true
+    });
+
+    new ROS3D.OccupancyGridClient({
+      ros : new ROSLIB.Ros({
+        url : 'ws://localhost:9090'
+      }),
+      rootObject : viewer.scene,
+      topic: '/slamware_ros_sdk_server_node/map'
+    });
+  }
+</script>
+</head>
+<body onload="init()">
+    <div>
+        <img src="http://192.168.2.149:8090/stream/video.mjpeg" width="60%"" height="60%"/>
+    </div>
+    
+    <div id="map"></div>
+  
+</body>
+</html>
