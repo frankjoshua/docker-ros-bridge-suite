@@ -7,8 +7,14 @@
 <script src="https://static.robotwebtools.org/EventEmitter2/current/eventemitter2.min.js"></script>
 <script src="https://static.robotwebtools.org/roslibjs/current/roslib.min.js"></script>
 <script src="https://static.robotwebtools.org/ros3djs/current/ros3d.min.js"></script>
+<script type="text/javascript" src="http://static.robotwebtools.org/keyboardteleopjs/current/keyboardteleop.min.js"></script>
 <script>
   function init() {
+    // Connecting to ROS.
+    var ros = new ROSLIB.Ros({
+      url : 'ws://localhost:9090'
+    });
+
     var viewer = new ROS3D.Viewer({
       divID : 'map',
       width : window.innerWidth,
@@ -17,21 +23,29 @@
     });
 
     new ROS3D.OccupancyGridClient({
-      ros : new ROSLIB.Ros({
-        url : 'ws://localhost:9090'
-      }),
+      ros : ros,
       rootObject : viewer.scene,
-      topic: '/slamware_ros_sdk_server_node/map'
+      topic: '/slamware_ros_sdk_server_node/map',
+      continuous: true
     });
+
+    // Initialize the teleop.
+    var teleop = new KEYBOARDTELEOP.Teleop({
+      ros : ros,
+      topic : '/pocketbot/cmd_vel'
+    });
+
+    //teleop.scale = 150;
   }
 </script>
 </head>
 <body onload="init()">
-    <div>
-        <img src="http://192.168.2.149:8090/stream/video.mjpeg" width="60%"" height="60%"/>
-    </div>
+    <div id="map" style="position:absolute;top:0;bottom:0;left:0;right:0;"></div>
+    <!-- <div style="position:absolute;top:0;bottom:0;left:0;right:0;">
+        <img src="http://192.168.2.149:8090/stream/video.mjpeg" width="40%"/>
+    </div> -->
+    <div id="nav"></div>
     
-    <div id="map"></div>
   
 </body>
 </html>
