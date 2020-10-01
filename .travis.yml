@@ -15,5 +15,5 @@ before_install:
   # - sudo service docker start
 
 script:
-  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin;
-    ./build.sh $DOCKER_CONTAINER --push;
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - ./build.sh $DOCKER_CONTAINER --push
