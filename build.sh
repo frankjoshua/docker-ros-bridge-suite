@@ -9,4 +9,8 @@ exit 1
 fi
 BUILDER=$(docker buildx create --use)
 docker buildx build -t $1 --platform linux/arm,linux/arm64/v8,linux/amd64 . $2
+ERROR_CODE=$?
 docker buildx rm $BUILDER
+if [[ $ERROR_CODE -ne 0 ]]; then
+ exit $ERROR_CODE
+fi
