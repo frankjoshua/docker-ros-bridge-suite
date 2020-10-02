@@ -4,7 +4,7 @@ sudo: required
 
 env:
   global:
-    - DOCKER_CONTAINER=frankjoshua/ros-master
+    - DOCKER_CONTAINER=frankjoshua/ros-bridge-suite
 
 before_install:
   - curl -fsSL https://get.docker.com | sh
