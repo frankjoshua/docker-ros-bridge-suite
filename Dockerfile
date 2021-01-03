@@ -1,7 +1,7 @@
-FROM ros:noetic-ros-base
+FROM ros:melodic-ros-base
 
 RUN apt-get update &&\
-    apt-get install -y ros-$ROS_DISTRO-rosbridge-suite &&\
+    apt-get install -y ros-$ROS_DISTRO-rosbridge-suite ros-$ROS_DISTRO-tf2-web-republisher &&\
     apt-get -y clean &&\
     apt-get -y purge &&\
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
