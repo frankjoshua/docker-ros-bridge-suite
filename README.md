@@ -1,5 +1,41 @@
-# ROS Bridge Suite in Docker [![](https://img.shields.io/docker/pulls/frankjoshua/ros-bridge-suite)](https://hub.docker.com/r/frankjoshua/ros-bridge-suite) [![Build Status](https://travis-ci.org/frankjoshua/docker-ros-bridge-suite.svg?branch=master)](https://travis-ci.org/frankjoshua/docker-ros-bridge-suite)
+# ROS Bridge Suite in Docker [![](https://img.shields.io/docker/pulls/frankjoshua/ros-bridge-suite)](https://hub.docker.com/r/frankjoshua/ros-bridge-suite) [![CI](https://github.com/frankjoshua/docker-ros-bridge-suite/workflows/CI/badge.svg)](https://github.com/frankjoshua/docker-ros-bridge-suite/actions)
 
-docker build . -t frankjoshua/ros-bridge-suite
+## Description
 
-docker run --network "host" -e ROS_IP=$ROS_IP -e ROS_MASTER_URI=$ROS_MASTER_URI frankjoshua/ros-bridge-suite
+Runs ROS Bridge Suite in a Docker container. Probably need --network="host" because ROS uses ephemeral ports.
+
+This repo is mostly an example of how to build a multi architecture docker container with ROS (Robotic Operating System). Github Actions is used to build 3 docker containers using `docker buildx` amd64 (x86 Desktop PC), arm64 (Jetson Nano) and arm32 (Raspberry Pi). This is for the purpose of developing locally on a work pc or laptop. Then being able to transfer your work to an embedded device with a high level of confidence of success.
+
+## Example
+
+```
+docker run -it \
+    --network="host" \
+    --env="ROS_IP=$ROS_IP" \
+    --env="ROS_MASTER_URI=$ROS_MASTER_URI" \
+    frankjoshua/ros-bridge-suite
+```
+
+## Building
+
+Use [build.sh](build.sh) to build the docker containers.
+
+<br>Local builds are as follows:
+
+```
+./build.sh -t frankjoshua/ros-bridge-suite -l
+```
+
+## Testing
+
+Github Actions expects the DOCKERHUB_USERNAME and DOCKERHUB_TOKEN variables to be set in your environment.
+
+## License
+
+Apache 2.0
+
+## Author Information
+
+Joshua Frank [@frankjoshua77](https://www.twitter.com/@frankjoshua77)
+<br>
+[http://roboticsascode.com](http://roboticsascode.com)
