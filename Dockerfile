@@ -21,4 +21,7 @@ HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 CMD curl 
     --header "Sec-WebSocket-Version: 13" \
     http://localhost:9090
 
-CMD ["roslaunch", "--wait", "rosbridge_server", "rosbridge_websocket.launch"]
+RUN mkdir -p /app
+COPY ./app /app
+WORKDIR /app
+CMD ["roslaunch", "--wait", "ros.launch"]
