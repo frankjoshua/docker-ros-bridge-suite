@@ -1,4 +1,4 @@
-FROM ros:melodic-ros-base
+FROM ros:noetic-ros-base
 
 RUN apt-get update &&\
     apt-get install -y ros-$ROS_DISTRO-rosbridge-suite ros-$ROS_DISTRO-tf2-web-republisher &&\
