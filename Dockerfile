@@ -9,25 +9,12 @@ RUN apt-get update && apt-get install -y \
 RUN bin/bash -c "echo 'source /opt/ros/$ROS_DISTRO/setup.bash' >> .bashrc"
 
 # Install Ros Bridge Suite
-RUN /bin/bash -c "apt-get update && \
-    source /opt/ros/$ROS_DISTRO/setup.bash && \
-    mkdir -p /catkin_ws/src && \
-    cd /catkin_ws/src && \
-    git clone https://github.com/RobotWebTools/rosbridge_suite.git && \
-    catkin_init_workspace && \
-    cd /catkin_ws/ && \
-    apt-get update && \
-    rosdep update && \
-    rosdep install --from-paths src -i -y &&\
-    catkin_make && \
-    echo 'source /catkin_ws/devel/setup.bash' >> /.bashrc && \
-    rm -rf /var/lib/apt/lists/"
-
 # Install tf2 Web Republisher
 RUN /bin/bash -c "apt-get update && \
     source /opt/ros/$ROS_DISTRO/setup.bash && \
     mkdir -p /catkin_ws/src && \
     cd /catkin_ws/src && \
+    git clone https://github.com/RobotWebTools/rosbridge_suite.git && \
     git clone https://github.com/RobotWebTools/tf2_web_republisher.git && \
     catkin_init_workspace && \
     cd /catkin_ws/ && \
