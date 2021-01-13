@@ -1,14 +1,42 @@
 FROM ros:noetic-ros-base
 
-RUN apt-get update &&\
-    apt-get install -y ros-$ROS_DISTRO-rosbridge-suite ros-$ROS_DISTRO-tf2-web-republisher &&\
-    apt-get -y clean &&\
-    apt-get -y purge &&\
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
 RUN apt-get update && apt-get install -y \
     curl \
+    git \
     && rm -rf /var/lib/apt/lists/*
+
+# add environment setup 
+RUN bin/bash -c "echo 'source /opt/ros/$ROS_DISTRO/setup.bash' >> .bashrc"
+
+# Install Ros Bridge Suite
+RUN /bin/bash -c "apt-get update && \
+    source /opt/ros/$ROS_DISTRO/setup.bash && \
+    mkdir -p /catkin_ws/src && \
+    cd /catkin_ws/src && \
+    git clone https://github.com/RobotWebTools/rosbridge_suite.git && \
+    catkin_init_workspace && \
+    cd /catkin_ws/ && \
+    apt-get update && \
+    rosdep update && \
+    rosdep install --from-paths src -i -y &&\
+    catkin_make && \
+    echo 'source /catkin_ws/devel/setup.bash' >> /.bashrc && \
+    rm -rf /var/lib/apt/lists/"
+
+# Install tf2 Web Republisher
+RUN /bin/bash -c "apt-get update && \
+    source /opt/ros/$ROS_DISTRO/setup.bash && \
+    mkdir -p /catkin_ws/src && \
+    cd /catkin_ws/src && \
+    git clone https://github.com/RobotWebTools/tf2_web_republisher.git && \
+    catkin_init_workspace && \
+    cd /catkin_ws/ && \
+    apt-get update && \
+    rosdep update && \
+    rosdep install --from-paths src -i -y &&\
+    catkin_make && \
+    echo 'source /catkin_ws/devel/setup.bash' >> /.bashrc && \
+    rm -rf /var/lib/apt/lists/"
 
 HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 CMD curl --include \
     --no-buffer \
