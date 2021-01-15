@@ -39,4 +39,4 @@ HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 CMD curl 
 RUN mkdir -p /app
 COPY ./app /app
 WORKDIR /app
-CMD ["roslaunch", "--wait", "ros.launch"]
+CMD ["/bin/bash", "-c", "roslaunch --wait ros.launch"]
