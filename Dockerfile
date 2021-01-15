@@ -24,6 +24,10 @@ RUN /bin/bash -c "apt-get update && \
     catkin_make && \
     echo 'source /catkin_ws/devel/setup.bash' >> /.bashrc && \
     rm -rf /var/lib/apt/lists/"
+# Source catkin workspace in Entrypoint
+RUN sed -i '$ d' ros_entrypoint.sh && \
+    echo "source /catkin_ws/devel/setup.bash" >> ros_entrypoint.sh && \
+    echo 'exec "$@"' >> ros_entrypoint.sh
 
 HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 CMD curl --include \
     --no-buffer \
@@ -39,4 +43,4 @@ HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 CMD curl 
 RUN mkdir -p /app
 COPY ./app /app
 WORKDIR /app
-CMD ["/bin/bash", "-c", "roslaunch --wait ros.launch"]
+CMD ["roslaunch", "--wait", "ros.launch"]
